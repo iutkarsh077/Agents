@@ -47,70 +47,76 @@ load_dotenv()
 
 #######################################################################################################################################
 
-client = OpenAI()
+# client = OpenAI()
 
 
-@function_tool(defer_loading=True)
-def SearchAllRepositories(username: str):
-    url = f"https://api.github.com/users/{username}/repos"
-    response = requests.get(url=url)
+# @function_tool(defer_loading=True)
+# def SearchAllRepositories(username: str):
+#     url = f"https://api.github.com/users/{username}/repos"
+#     response = requests.get(url=url)
 
-    github_repository_data = []
+#     github_repository_data = []
 
-    for d in response.json():
-        info = {
-            "name": d["name"],
-            "description": d["description"],
-            "language": d["language"],
-            "stargazers_count": d["stargazers_count"],
-        }
+#     for d in response.json():
+#         info = {
+#             "name": d["name"],
+#             "description": d["description"],
+#             "language": d["language"],
+#             "stargazers_count": d["stargazers_count"],
+#         }
 
-        github_repository_data.append(info)
+#         github_repository_data.append(info)
 
-    return github_repository_data
-
-
-@function_tool(defer_loading=True)
-def GetFeedback(githubRepoData: str) -> str:
-    response = client.responses.create(
-        model="gpt-4",
-        instructions="""
-        You are a feedback giver.
-        I will provide GitHub repository information.
-        Give strengths, weaknesses, and suggestions.
-        """,
-        input=f"Give feedback on these repositories:\n{githubRepoData}",
-    )
-
-    return response.output_text
+#     return github_repository_data
 
 
-tool_connection = tool_namespace(
-    name="github",
-    description="GitHub feedback tools",
-    tools=[GetFeedback, SearchAllRepositories],
-)
+# @function_tool(defer_loading=True)
+# def GetFeedback(githubRepoData: str) -> str:
+#     response = client.responses.create(
+#         model="gpt-4",
+#         instructions="""
+#         You are a feedback giver.
+#         I will provide GitHub repository information.
+#         Give strengths, weaknesses, and suggestions.
+#         """,
+#         input=f"Give feedback on these repositories:\n{githubRepoData}",
+#     )
+
+#     return response.output_text
 
 
-agent = Agent(
-    name="Feedback giver",
-    model="gpt-5.5",
-    instructions="""
-    Give GitHub feedback based on repository information.
-    First fetch repositories, then generate feedback.
-    """,
-    tools=[*tool_connection, ToolSearchTool()],
-)
+# tool_connection = tool_namespace(
+#     name="github",
+#     description="GitHub feedback tools",
+#     tools=[GetFeedback, SearchAllRepositories],
+# )
 
 
-def main():
-    result = Runner.run_sync(
-        agent,
-        "Give me GitHub repo feedback for user iutkarsh077",
-    )
+# agent = Agent(
+#     name="Feedback giver",
+#     model="gpt-5.5",
+#     instructions="""
+#     Give GitHub feedback based on repository information.
+#     First fetch repositories, then generate feedback.
+#     """,
+#     tools=[*tool_connection, ToolSearchTool()],
+# )
 
-    print(result.final_output)
+
+# def main():
+#     result = Runner.run_sync(
+#         agent,
+#         "Give me GitHub repo feedback for user iutkarsh077",
+#     )
+
+#     print(result.final_output)
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
+
+
+#######################################################################################################
+
+
+
