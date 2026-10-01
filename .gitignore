@@ -1,3 +1,7 @@
 researcher/__pycache__/agent.cpython-313.pyc
 researcher/__pycache__/db.cpython-313.pyc
 researcher/__pycache__/main.cpython-313.pyc
+
+# Added by ggshield
+.cache_ggshield
+sde/__pycache__/constant.cpython-313.pyc
